@@ -3,9 +3,7 @@
 # Timer
 Simple pomodoro timer for chromium
 
-I needed a smiple timer for work because my fav macOs app stoped working.
-Was not able to find a good enough alternative so I decided to write my own.
-It is a chrome extension instead of macOs menubar app because I wanted it to be crossplatform.
+My fav timer app stoped working and I was not able to find a good enough alternative so I decided to write my own.
 
 Decided to share it because I really liked the way it turned out. Chrome storage observer api is awesome!
 
