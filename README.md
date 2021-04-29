@@ -1,3 +1,5 @@
+<img src="https://github.com/Modi34/Timer/raw/main/icon.png" width="200">
+
 # Timer
 Simple pomodoro timer for chromium
 
