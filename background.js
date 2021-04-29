@@ -54,7 +54,7 @@ let actions = {
 	active(value, pause = false){
 		clearInterval(timeout_tick)
 		if(value){
-			timeout_tick = setInterval(tick, 100)
+			timeout_tick = setInterval(tick, 1000)
 			if(!pause){
 				chrome.storage.local.get(['duration_work'], data => {
 					let {duration_work} = data;
