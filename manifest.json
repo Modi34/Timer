@@ -1,0 +1,21 @@
+{
+  "background": {
+     "scripts": [ "background.js" ]
+  },
+  "manifest_version": 2,
+  "name": "Timer",
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "icons": {
+    "512": "icon.png"
+  },
+  "browser_action": {
+    "default_title": "Settings",
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "description": "Simple pomidoro timer",
+  "version": "1"
+}

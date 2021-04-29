@@ -1,0 +1,67 @@
+html{
+	height: 230px;
+	width: 150px;
+	user-select: none;
+}
+select{
+	    width: 100%;
+    margin: 5px 0 0px 0;
+        background: #efefef;
+    padding: 5px;
+    border:0;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.hiddenByDefault{
+	display: none;
+}
+label{
+	display: block;
+	margin: 10px 0;
+}
+
+label:hover > input, label:hover > select{
+	background: #D6D6D6;
+}
+
+input[type=number]{
+	width: 40px;
+	text-align: center;
+	margin: 0 5px;
+	border: 0;
+	background: #efefef;
+	padding: 3px;
+	border-radius: 4px;
+}
+button{
+	width: 100%;
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    padding: 8px 4px;
+    margin: 4px 0;
+    background: #efefef;
+}
+button:hover{
+	background: #D6D6D6;
+}
+time{
+	width: 100%;
+	text-align: center;
+	display: block;
+	font-size: 50px;
+	font-style: italic;
+	margin-bottom: 14px;
+}
+.active .active, .pause .pause{
+	display: block;
+}
+.disabled .disabled, .unpause .unpause{
+	display: block;
+}
+.darker{
+	background: #D6D6D6;
+}
+.darker:hover{
+	background: #B0B0B0;
+}
