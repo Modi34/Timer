@@ -75,7 +75,9 @@ let actions = {
 		}
 	},
 	paused(value){
-		actions.active(!value, true)
+		chrome.storage.local.get('active', data => {
+			data.active && actions.active(!value, true)
+		})
 	},
 	resting(value){
 		chrome.storage.local.get(['duration_short', 'duration_long', 'numberOfShort', 'active'], data => {
