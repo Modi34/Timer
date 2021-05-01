@@ -1,5 +1,5 @@
 m=(...n)=>n.map(t=>this[t]=(...p)=>(n=document.createElement(t),p.map(p=>p+''=={}?Object.assign(n,p):n.append(p)),n))
-m('div', 'time', 'i', 'button', 'video', 'br', 'source');
+m('div', 'time', 'i', 'button', 'video', 'br');
 
 let sourceURL = 'https://sylvan.apple.com/Videos/'
 let videos = [
@@ -92,7 +92,7 @@ let videos = [
 function nextVideoSrc(multiplier = 1){
 	lastVideo += multiplier;
 	if(!videos[lastVideo]){
-		lastVideo = multiplier>0 ? 0 : (videos.length-1);
+		lastVideo = lastVideo > 0 ? 0 : (videos.length-1);
 	}
 	chrome.storage.local.set({lastVideo})
 	node_video.src = sourceURL + videos[lastVideo];
@@ -115,7 +115,7 @@ document.body.appendChild(
 		button('<', {onclick:e=> nextVideoSrc(-1) }),
 		button('Random', {onclick(e){
 			lastVideo = Math.floor(Math.random() * videos.length) - 1;
-			nextVideoSrc(1)
+			nextVideoSrc(0)
 		}}),
 		button('>', {onclick:e=> nextVideoSrc(1) }),
 		time(node_min = i('00'), ':', node_sec = i('00'))
@@ -124,8 +124,7 @@ document.body.appendChild(
 
 let lastVideo = 0;
 chrome.storage.local.get('lastVideo', r=>{
-	lastVideo = r.lastVideo;
-	nextVideoSrc(0)
+	nextVideoSrc(r.lastVideo + 1)
 })
 
 let actions = {

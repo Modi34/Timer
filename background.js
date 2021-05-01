@@ -16,9 +16,11 @@ chrome.storage.local.get(null, options => {
 		if(!(key in options)){
 			return chrome.storage.local.set(defaults)
 		}
-		actions[key]&& defaults[key] != options[key] && actions[key](options[key])
 	}
+	actions.paused(options.paused)
 })
+
+chrome.browserAction.setBadgeBackgroundColor({color: '#000'})
 
 let timeout_tick = false;
 function tick(){
@@ -32,7 +34,7 @@ function tick(){
 
 		if(sec == 0){
 			if(min == 0){
-				(!data.resting? sound_finished : sound_rest ).play()
+				(!data.resting? sound_finished_work : sound_finished_rest ).play()
 				chrome.storage.local.set({resting: !data.resting})
 				return
 			}
@@ -51,51 +53,54 @@ function tick(){
 let lap = 0;
 
 let actions = {
-	active(value, pause = false){
+	active(value){
 		clearInterval(timeout_tick)
+
 		if(value){
 			timeout_tick = setInterval(tick, 1000)
-			if(!pause){
-				chrome.storage.local.get(['duration_work'], data => {
-					let {duration_work} = data;
-					chrome.browserAction.setBadgeBackgroundColor({color: '#000'})
-					chrome.storage.local.set({min: duration_work, sec: defaults.sec})
-				})
-			}
+
+			chrome.storage.local.get(['duration_work'], data => {
+				let {duration_work} = data;
+				chrome.browserAction.setBadgeBackgroundColor({color: '#000'})
+				chrome.storage.local.set({min: duration_work, sec: defaults.sec})
+			})
 			return
 		}
 
-		if(!pause){
-			chrome.storage.local.set({
-				sec: defaults.sec,
-				min: defaults.min,
-				paused: false,
-				resting: false
-			})
-		}
+		chrome.storage.local.set({
+			sec: defaults.sec,
+			min: defaults.min,
+			paused: false,
+			resting: false
+		})
 	},
 	paused(value){
 		chrome.storage.local.get('active', data => {
-			data.active && actions.active(!value, true)
+			value | !data.active ?
+				clearInterval(timeout_tick) :
+				(timeout_tick = setInterval(tick, 1000))
 		})
 	},
 	resting(value){
 		chrome.storage.local.get(['duration_short', 'duration_long', 'numberOfShort', 'active'], data => {
 			if(value){
-				lap++;
 				loadRestWindow()
-				if(data.numberOfShort >= lap){
-					chrome.browserAction.setBadgeBackgroundColor({color: '#CC0000'})
-					chrome.storage.local.set({min: data.duration_short, sec: defaults.sec})
-				}else{
-					chrome.browserAction.setBadgeBackgroundColor({color: '#04AA6D'})
-					chrome.storage.local.set({min: data.duration_long, sec: defaults.sec})
-					lap = 0;
-				}
-			}else{
-				restWindowId && chrome.windows.remove(restWindowId)
-				actions.active(data.active)
+				let isShortRest = data.numberOfShort >= lap;
+
+				lap = isShortRest? lap + 1 : 0;
+				chrome.browserAction.setBadgeBackgroundColor({
+					color: isShortRest? '#CC0000' : '#04AA6D'
+				})
+
+				chrome.storage.local.set({
+					min: data[isShortRest ? 'duration_short' : 'duration_long'],
+					sec: defaults.sec
+				})
+				return
 			}
+
+			restWindowId && chrome.windows.remove(restWindowId)
+			actions.active(data.active)
 		})
 	},
 	sec(text){
@@ -112,11 +117,11 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   }
 });
 
-var sound_finished = new Audio();
-sound_finished.src = "finished_work.m4a";
+var sound_finished_work = new Audio();
+sound_finished_work.src = "finished_work.m4a";
 
-var sound_rest = new Audio();
-sound_rest.src = "finished_rest.wav";
+var sound_finished_rest = new Audio();
+sound_finished_rest.src = "finished_rest.wav";
 
 let restWindowId = false;
 function loadRestWindow(){

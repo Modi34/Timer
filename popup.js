@@ -7,7 +7,12 @@ document.body.appendChild(
 		div({className: 'disabled hiddenByDefault'},
 			h3('Settings'),
 			label('Work:',
-				node_duration_work = input({type:'number', name: 'duration_work', min: '0', value: '55'}),
+				node_duration_work = input({
+					type:'number',
+					name: 'duration_work',
+					min: '0',
+					value: '55'
+				}),
 			'min'),
 			label('Rest cycle:',
 				node_numberOfShort = select({name: 'numberOfShort'},
@@ -21,12 +26,27 @@ document.body.appendChild(
 				)
 			),
 			label('Short rest:',
-				node_duration_short = input({type:'number', name: 'duration_short', min: '0', value: '5'}),
+				node_duration_short = input({
+					type:'number',
+					name: 'duration_short',
+					min: '0',
+					value: '5'
+				}),
 			'min'),
 			label('Long rest:',
-				node_duration_long = input({type:'number', name: 'duration_long', min: '0', value:'15'}),
+				node_duration_long = input({
+					type:'number',
+					name: 'duration_long',
+					min: '0',
+					value:'15'
+				}),
 			'min'),
-			button('Start timer', {className: 'darker', name:'active', value: true, onclick: saveInput})
+			button('Start timer', {
+				className: 'darker',
+				name:'active',
+				value: true,
+				onclick: saveInput
+			})
 		),
 		div({className: 'active hiddenByDefault'},
 			h3('Working'),
@@ -60,10 +80,10 @@ document.body.appendChild(
 
 function saveInput(e){
 	let data = {}
-	data[e.target.name] = e.target.value;
-	if(e.target.nodeName == 'BUTTON'){
-		data[e.target.name] = e.target.value == 'true'
-	}
+	let {name, value, nodeName} = e.target;
+
+	data[name] = nodeName == "BUTTON"? value == 'true' : value;
+
 	chrome.storage.local.set(data);
 }
 
