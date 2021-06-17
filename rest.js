@@ -118,7 +118,20 @@ document.body.appendChild(
 			nextVideoSrc(0)
 		}}),
 		button('>', {onclick:e=> nextVideoSrc(1) }),
-		time(node_min = i('00'), ':', node_sec = i('00'))
+		br(),
+		button('Fullscreen', {
+			onclick(e){
+				document.documentElement.requestFullscreen()
+			},
+			className: 'fullscreen'
+		}),
+		button('Exit fullscreen', {
+			onclick(e){
+				document.exitFullscreen();
+			},
+			className: 'disableFullScreen'
+		}),
+		time(node_min = i('00'), ':', node_sec = i('00')),
 	)
 )
 
@@ -147,3 +160,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 		actions[key] && actions[key](newValue)
   }
 });
+
+document.onfullscreenchange = e =>{
+	document.body.classList[document.fullscreen ? 'add' : 'remove']('fullscreen')
+}
