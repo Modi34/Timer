@@ -56,10 +56,10 @@ time{
 	font-style: italic;
 	margin-bottom: 14px;
 }
-.active .active, .pause .pause{
+.active .active, .pause .pause, .rest .rest{
 	display: block;
 }
-.disabled .disabled, .unpause .unpause{
+.disabled .disabled, .unpause .unpause, .unrest .unrest{
 	display: block;
 }
 .darker{

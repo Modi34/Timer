@@ -49,11 +49,19 @@ document.body.appendChild(
 			})
 		),
 		div({className: 'active hiddenByDefault'},
-			h3('Working'),
+			h3('Working', {className: 'rest hiddenByDefault'}),
+			h3('Relaxing', {className: 'unrest hiddenByDefault'}),
 			time(node_min = i('00'), ':', node_sec = i('00')),
 			button('Take a break', {
+				className: 'rest hiddenByDefault',
 				name: 'resting',
 				value: true,
+				onclick: saveInput
+			}),
+			button('Back to work', {
+				className: 'unrest hiddenByDefault',
+				name: 'resting',
+				value: false,
 				onclick: saveInput
 			}),
 			button('Pause', {
@@ -91,6 +99,10 @@ let actions = {
 	active(value){
 		node_main.classList.remove(value ? 'disabled' : 'active')
 		node_main.classList.add(value ? 'active' : 'disabled')
+	},
+	resting(value){
+		node_main.classList.remove(value ? 'rest' : 'unrest')
+		node_main.classList.add(value ? 'unrest' : 'rest')
 	},
 	paused(value){
 		node_main.classList.remove(value ? 'pause' : 'unpause')
