@@ -136,6 +136,7 @@ chrome.storage.local.get(null, options => {
 let observable = {
 	active: true,
 	paused: true,
+	resting: true,
 	min: true,
 	sec: true
 }
