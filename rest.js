@@ -105,12 +105,18 @@ document.body.appendChild(
 
 document.body.appendChild(
 	div({id: 'controls'},
-		button('Stop timer', {onclick(e){
+		button('Stop', {onclick(e){
 			chrome.storage.local.set({active: false})
 		}}),
 		button('Back to work', {onclick(e){
 			chrome.storage.local.set({resting: false})
 		}}),
+		button('Pause', {onclick(e){
+			chrome.storage.local.set({paused: true})
+		}, className: 'pause'}),
+		button('Unpause', {onclick(e){
+			chrome.storage.local.set({paused: false})
+		}, className: 'unpause'}),
 		br(),
 		button('<', {onclick:e=> nextVideoSrc(-1) }),
 		button('Random', {onclick(e){
@@ -146,6 +152,10 @@ let actions = {
 	},
 	sec(value){
 		node_sec.textContent = value
+	},
+	paused(value){
+		document.body.classList.remove(value ? 'pause' : 'unpause')
+		document.body.classList.add(value ? 'unpause' : 'pause')
 	}
 }
 

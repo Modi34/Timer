@@ -40,9 +40,9 @@ button:hover{
     background: #fff;
 }
 
-body.fullscreen button.fullscreen, button.disableFullScreen{
+.fullscreen .fullscreen, .disableFullScreen, .unpause .pause, .pause .unpause{
     display: none;
 }
-body.fullscreen button.disableFullScreen, button.fullscreen{
+.fullscreen .disableFullScreen, .fullscreen, .pause .pause, .unpause .unpause{
     display: inline;
 }
