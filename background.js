@@ -18,6 +18,7 @@ chrome.storage.local.get(null, options => {
 		}
 	}
 	actions.paused(options.paused)
+	actions.resting(options.resting)
 })
 
 chrome.browserAction.setBadgeBackgroundColor({color: '#000'})
